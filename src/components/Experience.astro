@@ -1,0 +1,62 @@
+---
+const experiences = [
+  {
+    company: "Urmet S.p.A.",
+    role: "Embedded Software Designer (Headquarters in Turin)",
+    period: "Nov 2022 — Present",
+    description: "Driving firmware innovation within the Technology Innovation division for next-generation IP-based and 2-wire smart door entry and building automation systems. Focused on porting complex network stacks to resource-constrained bare-metal silicon and establishing reproducible modern compilation pipelines.",
+    achievements: [
+      "Ported and stripped a custom bare-metal version of the POSIX-based Baresip client to STM32 and NationsTech (N32) ARM Cortex-M4 microcontrollers, enabling seamless SIP/SDP signaling with Linux-based counterparts.",
+      "Architected and developed a 32KB Layer 2 secure FOTA bootloader utilizing micro-ecc (uECC) for EC-PKI authentication, completely bypassing IP/UDP stacks to operate over raw MAC addresses.",
+      "Designed and containerized the R&D build environment using Docker, streamlining compilation workflows for N32 and STM32 applications via ARM CMSIS toolbox.",
+      "Optimized real-time G.722 audio processing routines in Cortex-M4 assembly, reducing loop execution from 4ms to 3ms to guarantee low-jitter streams vital for remote Acoustic Echo Cancellation stability.",
+      "Refactored Microchip 10BASE-T1S MACPHY OPEN Alliance TC6 drivers to operate asynchronously via SPI DMA complete interrupts, eliminating polling overhead and slashing ping latency by 1ms.",
+      "Interfaced bare-metal nodes with Allwinner V853s Linux SoCs, user-space testing servers in Go and compiling custom Rust DeepFilterNet plugins for high-performance Edge AI active noise cancellation."
+    ]
+  },
+  {
+    company: "Adgenera (Curricular Internship)",
+    role: "Industrial Automation Intern",
+      period: "Sep 2022 — Oct 2022",
+    description: "Contributed to the real-time baggage handling system renewal project at Zürich Airport, configuring high-reliability industrial PLC control nodes.",
+    achievements: [
+      "Configured Siemens SIMATIC S7-1500 controllers in Structured Control Language (SCL) over TIA Portal v17.",
+      "Participated in automated simulation testing tracking edge-case behaviors under peak baggage sorting throughput scenarios."
+    ]
+  }
+];
+---
+
+<section id="experience" class="py-24 px-4">
+  <div class="max-w-4xl mx-auto">
+    <div class="mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Professional Experience</h2>
+      <div class="h-1 w-20 bg-sky-500 rounded-full"></div>
+    </div>
+
+    <div class="space-y-12">
+      {experiences.map((exp) => (
+        <div class="relative pl-8 border-l border-slate-700">
+          <div class="absolute -left-[5px] top-0 w-[9px] h-[9px] bg-sky-500 rounded-full animate-pulse"></div>
+          
+          <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-4">
+            <h3 class="text-2xl font-bold text-white group-hover:text-sky-400 transition-colors">{exp.company}</h3>
+            <span class="text-sky-400 font-mono text-sm shrink-0">{exp.period}</span>
+          </div>
+          
+          <p class="text-xl text-slate-300 mb-4">{exp.role}</p>
+          <p class="text-slate-400 mb-6 leading-relaxed">{exp.description}</p>
+          
+          <ul class="space-y-3">
+            {exp.achievements.map((achievement) => (
+              <li class="flex items-start text-slate-400">
+                <span class="text-sky-500 mr-3 mt-1.5 text-xs">◆</span>
+                {achievement}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

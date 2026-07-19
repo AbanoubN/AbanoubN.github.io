@@ -1,0 +1,56 @@
+---
+import { Code } from 'astro:components';
+
+interface Props {
+  code: string;
+  lang: any;
+  filename: string;
+}
+
+const { code, lang, filename } = Astro.props;
+---
+
+<div class="rounded-xl border border-slate-700/50 bg-[#0f141c] overflow-hidden font-mono text-[12px] md:text-[13px] shadow-2xl my-6 w-full">
+  <!-- VS Code styled titlebar -->
+  <div class="flex justify-between items-center px-4 py-2 border-b border-slate-800/80 bg-[#0b0e14]">
+    <div class="flex items-center gap-2">
+      <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-[#27c93f]"></span>
+      <span class="text-xs text-slate-400 ml-2 font-mono tracking-wider">{filename}</span>
+    </div>
+    <span class="text-xs text-sky-400/80 font-bold uppercase tracking-wider">{lang}</span>
+  </div>
+  <div class="p-5 overflow-x-auto bg-[#090d12]/50 max-h-[450px] scrollbar-thin">
+    <Code code={code.trim()} lang={lang} theme="one-dark-pro" wrap={false} />
+  </div>
+</div>
+
+<style is:global>
+  /* Ensure the Shiki background is transparent so our beautiful dark background shows through */
+  .astro-code {
+    background-color: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .astro-code code {
+    white-space: pre !important;
+    font-family: var(--font-mono), monospace !important;
+  }
+
+  /* Custom scrollbar styling for technical look */
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 3px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: #0ea5e9;
+  }
+</style>

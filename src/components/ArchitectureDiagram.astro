@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<div class="p-6 border border-slate-700/50 bg-slate-900/30 rounded-2xl my-6 relative overflow-hidden group hover:border-sky-500/30 transition-colors duration-300">
+  <div class="flex justify-between items-center mb-4">
+    <span class="text-xs text-sky-400 font-mono uppercase tracking-wider font-semibold">&gt; {title}</span>
+    <span class="text-[10px] text-slate-500 font-mono">SYSTEM_ARCHITECTURE</span>
+  </div>
+  
+  <div class="flex justify-center items-center py-4 bg-slate-950/40 rounded-xl border border-slate-800/80 overflow-x-auto scrollbar-thin">
+    <slot />
+  </div>
+</div>

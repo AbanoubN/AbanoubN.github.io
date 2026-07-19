@@ -1,0 +1,464 @@
+---
+import { ExternalLink, Code as CodeIcon, Cpu, ShieldAlert, Zap, GraduationCap } from '@lucide/astro';
+import CodeShowcase from './CodeShowcase.astro';
+import ArchitectureDiagram from './ArchitectureDiagram.astro';
+import SystemViewScope from './SystemViewScope.astro';
+
+const projects = [
+  {
+    id: "secure-fota-sandbox",
+    title: "ARM Cortex-M4 Secure FOTA & Networking Sandbox",
+    category: "Professional / R&D Sandbox",
+    summary: "A high-fidelity, heterogeneous R&D simulation environment running FreeRTOS, FreeRTOS+TCP, coreMQTT, and PSA Crypto to validate secure, standard-compliant FOTA updates.",
+    problem: "Validating secure, multi-node FOTA updates on physical hardware (like STM32) is slow, hard to automate, and makes regression testing difficult. Standard mTLS and MQTT libraries consume significant heap memory and require careful optimization on constrained MCUs.",
+    solution: "Architected a dual-platform local emulation sandbox with a QEMU-emulated Cortex-M4 board running the official FreeRTOS OTA Agent and a virtual TAP bridge. Integrated TLS 1.3-only Mutual TLS (mTLS) over Mosquitto using MbedTLS/PSA Crypto. Developed an asyncio-based AWS Jobs emulator to stream binary CBOR-encoded firmware blocks. Managed the entire cross-compilation environment using a reproducible Nix Flake.",
+    tags: ["FreeRTOS", "FreeRTOS+TCP", "coreMQTT", "MbedTLS", "PSA Crypto", "TLS 1.3", "mTLS (ECDSA)", "QEMU (mps2-an386)", "STM32 Nucleo", "CBOR", "AWS IoT Jobs", "CMake", "Ninja", "Nix Flakes", "C"],
+    github: null,
+    demo: null,
+    isAcademic: false,
+    codeSample: `
+{
+  description = "FreeRTOS MQTT Sandbox & NUCLEO-C5A3ZG Build Environment";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+  };
+
+  outputs = { self, nixpkgs, flake-utils }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        devShells.default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            # Build Tools
+            gnumake
+            cmake
+            ninja
+            
+            # Cross-Compilation Toolchain
+            gcc-arm-embedded
+            
+            # Debugging & Flashing
+            openocd
+            gdb
+            
+            # Host Emulation & Broker
+            qemu
+            mosquitto
+            
+            # Scripting
+            python3
+            python3Packages.pip
+            python3Packages.virtualenv
+
+            # Host Libraries for Cortex-A7 Linux Device Agent Proxy
+            openssl
+            paho-mqtt-c
+            pkg-config
+          ];
+
+          shellHook = ''
+            echo "========================================================"
+            echo "🚀 Nix Environment Active: FreeRTOS Sandbox"
+            echo "   Toolchain: \$(arm-none-eabi-gcc --version | head -n1)"
+            echo "   CMake    : \$(cmake --version | head -n1)"
+            echo "========================================================"
+          '';
+        };
+      }
+    );
+}
+    `,
+    codeLang: "nix",
+    codeFile: "flake.nix"
+  },
+  {
+    id: "voip-app",
+    title: "High-Performance Deterministic IP Audio Engine",
+    category: "Professional / Proprietary System",
+    summary: "A real-time, low-latency VoIP audio application utilizing FreeRTOS and LwIP on constraint-driven Cortex-M4 hardware, featuring precise audio-network synchronicity.",
+    problem: "Remote Linux-based systems running full Baresip required sub-millisecond packet turnaround and consistent low-jitter streams to keep acoustic echo cancellation (AEC) models stable. Standard VoIP and network libraries exceeded the memory and timing budgets.",
+    solution: "Ported and stripped a custom bare-metal version of the POSIX-based Baresip client to Cortex-M4 to mimic full Linux SIP/INVITE behaviors. Optimized the G.722 codec in ASM utilizing Cortex-M4 saturating arithmetic, saving 25% CPU execution. Refactored the Microchip 10-BASE T1S OPEN Alliance TC6 driver to use SPI DMA complete interrupts instead of polling, keeping the entire duplex TX/RX stream tightly constrained to an 8ms latency budget per pipe.",
+    tags: ["Custom PCB","CUBE IDE", "STM32","C", "ARM v7-E Assembly", "FreeRTOS", "LwIP", "SPI-DMA 10 BASE-T1S", "TC6", "SIP","RTP", "I2S-DMA Nuvoton CODEC", "Nationstech N32"],
+    github: null,
+    demo: null,
+    isAcademic: false
+  },
+  {
+    id: "secure-boot",
+    title: "Secure Layer-2 Ethernet FOTA Bootloader",
+    category: "Professional / Proprietary System",
+    summary: "An ultra-compact (32KB) secure firmware-over-the-air (FOTA) bootloader operating completely at Layer 2 without an IP or OS stack, utilizing Elliptic-Curve PKI for cryptographic validation.",
+    problem: "Standard secure update clients rely on mbedTLS, X.509 certificate parsers, and full TCP/IP stacks, which easily exceed the 32KB bootloader boundary on a 256KB Flash MCU.",
+    solution: "Designed a lightweight custom Layer 2 TLS-like handshake that operates over raw MAC addresses, completely bypassing the ARP, IPv4/IPv6, and UDP stacks in the bootloader. Integrated micro-ecc (uECC) to perform EC-PKI signature verification of incoming firmware chunks. Wrote raw Ethernet drivers directly interfacing with the LAN8651 10BASE-T1S MACPHY via raw SPI commands, enabling secure, low-overhead firmware upgrades directly to the internal flash blocks.",
+    tags: ["C", "Bare-Metal", "TLS", "uECC", "PKI" , "10BASE-T1S", "L2-Networking", "FOTA", "Secure Boot"],
+    github: null,
+    demo: null,
+    isAcademic: false
+  },
+  {
+    id: "freertos-fork",
+    title: "Deterministic Time-Triggered FreeRTOS Fork",
+    category: "Academic / Master's (Politecnico di Torino - Italy)",
+    summary: "A customized fork of the FreeRTOS Kernel v11.2.0 implementing a deterministic, time-triggered timeline-based scheduling scheme for safety-critical systems on ARM Cortex-M3.",
+    problem: "The default event-driven priority-based scheduler in FreeRTOS exhibits timing jitter and lacks temporal isolation, making it non-compliant with strict safety standards (like ASIL-C/IEC 61508).",
+    solution: "Modified the scheduler core (tasks.c) to select tasks based on a static offline timeline of Major/Minor frames mapped directly to the system tick. Integrated hard-deadline violation hooks for safe, ISR-safe task termination, validated under QEMU.",
+    tags: ["C", "RTOS Internals", "QEMU", "Time-Triggered Architecture", "Safety-Critical Design"],
+    github: null, // Delivered on demand
+    demo: null,
+    isAcademic: true,
+    codeSample: `
+/*
+ * FreeRTOS Kernel V11.2.0
+ * Copyright (C) 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * https://www.FreeRTOS.org
+ * https://github.com/FreeRTOS
+ *
+ */
+
+#ifndef INC_TIMELINE_SCHEDULER_H
+#define INC_TIMELINE_SCHEDULER_H
+
+#ifndef INC_FREERTOS_H
+    #error "include FreeRTOS.h must appear in source files before include timelinescheduler.h"
+#endif
+
+/**
+ * @brief Defines the classification of tasks within the timeline scheduler.
+ *
+ * The scheduler distinguishes between tasks that require strict deterministic
+ * timing guarantees (Hard Real-Time) and those that run on a best-effort basis
+ * during idle periods (Soft Real-Time).
+ */
+typedef enum
+{
+    /* Tasks that must execute within a specific subframe window and strictly
+     * adhere to start and end times. */
+    TASK_HARD_RT = 0,
+
+    /* Tasks that execute in the remaining time of a subframe after Hard Real-Time
+     * tasks have completed. They are scheduled in a fixed order. */
+    TASK_SOFT_RT = 1
+} TaskType_t;
+
+/**
+ * @brief Configuration structure for a single task in the timeline.
+ *
+ * This structure defines all properties required by the scheduler to manage
+ * the task's execution, including its timing constraints, stack requirements,
+ * and category.
+ */
+typedef struct
+{
+    /* A descriptive name for the task. This is used primarily for debugging
+     * and identification purposes. */
+    const char * pcTaskName;
+
+    /* Pointer to the function that implements the task. The task function must
+     * follow the standard FreeRTOS task signature: void vTaskCode( void * pvParameters ); */
+    TaskFunction_t pxTaskCode;
+
+    /* The category of the task (Hard Real-Time or Soft Real-Time). */
+    TaskType_t xType;
+
+    /* For Hard Real-Time tasks: The offset in ticks from the start of the
+     * assigned subframe at which the task must begin execution.
+     * For Soft Real-Time tasks: This field is ignored. */
+    TickType_t xStartTime;
+
+    /* For Hard Real-Time tasks: The deadline in ticks relative to the start
+     * of the assigned subframe. The task must complete execution before this time.
+     * For Soft Real-Time tasks: This field is ignored. */
+    TickType_t xEndTime;
+
+    /* The index of the subframe (0 to configTIMELINE_SUBFRAMES_PER_CYCLE - 1) in which this task is
+     * scheduled to run. This is only relevant for Hard Real-Time tasks. */
+    uint32_t ulSubframeId;
+
+    /* The number of words (not bytes) to allocate for the task's stack. For example,
+     * if the stack is 32-bits wide, a value of 100 allocates 400 bytes. */
+    uint16_t usStackDepth;
+} TimelineTaskConfig_t;
+
+/**
+ * @brief Initializes the timeline scheduler with the provided task configuration.
+ *
+ * This function parses the configuration array, creates the necessary internal
+ * structures, and prepares the tasks for execution. It must be called before
+ * the FreeRTOS scheduler is started via vTaskStartScheduler().
+ *
+ * @note The global configuration parameters configTIMELINE_TASK_COUNT, configTIMELINE_MAJOR_FRAME_TICKS, and configTIMELINE_MINOR_FRAME_TICKS
+ *       must be defined in FreeRTOSConfig.h.
+ *
+ * @param[in] cfg Pointer to an array of TimelineTaskConfig_t structures. The array
+ *                must contain exactly configTIMELINE_TASK_COUNT entries, defining the complete
+ *                schedule for the system.
+ */
+void vConfigureScheduler( const TimelineTaskConfig_t * cfg );
+
+/**
+ * @brief Forcefully terminates a task and reschedules it for the next major frame.
+ *
+ * This function is designed to be called from timeline hooks (which run in 
+ * interrupt context) to enforce conditional dependencies or handle faults.
+ *
+ * @param[in] xTask The handle of the task to terminate.
+ */
+#if ( INCLUDE_vTaskTimelineTerminate == 1 )
+    void vTaskTimelineTerminateFromISR( TaskHandle_t xTask );
+#endif
+
+#endif /* INC_TIMELINE_SCHEDULER_H */
+    `,
+    codeLang: "c",
+    codeFile: "portable/kernel/timelinescheduler.h",
+    details: {
+      highlights: [
+        "Subframe assignment: Tasks are rigidly bound to specific minor frames with absolute deadlines.",
+        "Clock-synchronous determinism: Achieved zero jitter, with activation bounded to 1 tick."
+      ],
+      validation: [
+        { scenario: "Normal Execution", status: "PASSED", description: "Perfect timeline adherence, 0 violations." },
+        { scenario: "HRT Overrun", status: "PASSED", description: "Safety hooks trigger immediate, ISR-safe task kills." }
+      ]
+    }
+  },
+  {
+    id: "bachelors-portfolio",
+    title: "Versatile Embedded & Network Systems Suite",
+    category: "Academic / Bachelor's (University of Arkansas - USA)",
+    summary: "A versatile showcase of fundamental software and hardware engineering modules developed during Bachelor's studies, spanning Assembly driver programing, network sockets, and OOP.",
+    problem: "To prove rigorous fundamental training in bare-metal architectures, I/O registers, low-level interrupts, socket communication, and object-oriented paradigms across diverse environments.",
+    solution: "Compiled a highly modular suite of academic source codes: low-level ARM/MSP assembly drivers (mapping I/O ports, registers, PWM, and ISR vectors) built during exchange studies at the University of Arkansas, USA; clean client-server socket engines in C; and application-level object-oriented systems (like a complete vaccination campaign tool in Java).",
+    tags: ["Assembly", "C", "Java", "Microcontrollers", "I/O Registers", "Socket Programming", "OOP"],
+    github: "https://abanoubn.github.io/",
+    demo: null,
+    isAcademic: true
+  }
+];
+---
+
+<section id="projects" class="py-24 px-4 bg-slate-900/30">
+  <div class="max-w-6xl mx-auto">
+    <div class="mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Featured Projects</h2>
+      <p class="text-slate-400 font-mono text-sm">Professional architectures (proprietary code restricted) & academic research codebases.</p>
+      <div class="h-1 w-20 bg-sky-500 rounded-full mt-4"></div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-16">
+      {projects.map((project) => (
+        <div class="group p-8 rounded-3xl bg-slate-800/40 border border-slate-700/50 hover:bg-slate-800/60 hover:border-sky-500/20 transition-all duration-300">
+          <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Left Side: Project details -->
+            <div class="flex-1 space-y-6">
+              <div class="flex justify-between items-start">
+                <div class="space-y-1">
+                  <span class="text-xs font-mono text-sky-400 font-semibold tracking-wider uppercase">{project.category}</span>
+                  <h3 class="text-2xl font-bold text-white group-hover:text-sky-400 transition-colors">{project.title}</h3>
+                </div>
+                <div class="flex gap-4 text-slate-500">
+                  {project.github && <a href={project.github} class="hover:text-white transition-colors" title="View Source"><CodeIcon size={20} /></a>}
+                  {project.demo && <a href={project.demo} class="hover:text-white transition-colors" title="Live Demo"><ExternalLink size={20} /></a>}
+                  {!project.github && !project.demo && <span class="text-xs font-mono text-slate-600 border border-slate-800/80 px-2 py-1 rounded bg-slate-950/40 font-semibold">PROPRIETARY</span>}
+                </div>
+              </div>
+
+              <p class="text-slate-300 leading-relaxed">
+                {project.summary}
+              </p>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-slate-800/60">
+                <div>
+                  <h4 class="text-xs font-mono text-sky-400 uppercase tracking-wider mb-1.5 font-bold">The Engineering Challenge</h4>
+                  <p class="text-slate-400 text-sm leading-relaxed">{project.problem}</p>
+                </div>
+                <div>
+                  <h4 class="text-xs font-mono text-sky-400 uppercase tracking-wider mb-1.5 font-bold">Solution & Architecture</h4>
+                  <p class="text-slate-400 text-sm leading-relaxed">{project.solution}</p>
+                </div>
+              </div>
+
+              {project.details && (
+                <div class="space-y-4 pt-4 border-t border-slate-800/60">
+                  <div>
+                    <h4 class="text-xs font-mono text-emerald-400 uppercase tracking-wider mb-2 font-bold">Compliance Patterns & Features</h4>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-slate-400">
+                      {project.details.highlights.map((hl) => (
+                        <li class="flex items-start">
+                          <span class="text-emerald-500 mr-2 shrink-0">✔</span>
+                          <span>{hl}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4 class="text-xs font-mono text-emerald-400 uppercase tracking-wider mb-2 font-bold">QEMU Real-Time Verification</h4>
+                    <div class="overflow-x-auto">
+                      <table class="w-full text-[11px] font-mono text-slate-400">
+                        <thead>
+                          <tr class="border-b border-slate-800 text-left text-sky-400/80">
+                            <th class="pb-1 pr-4">Test Scenario</th>
+                            <th class="pb-1 pr-4">Status</th>
+                            <th class="pb-1">Analysis / Findings</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {project.details.validation.map((val) => (
+                            <tr class="border-b border-slate-800/40 last:border-0 hover:bg-slate-950/20">
+                              <td class="py-1.5 pr-4 text-slate-300 font-semibold">{val.scenario}</td>
+                              <td class="py-1.5 pr-4 text-emerald-400">{val.status}</td>
+                              <td class="py-1.5 text-slate-400">{val.description}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div class="flex flex-wrap gap-2 pt-4">
+                {project.tags.map((tag) => (
+                  <span class="px-3 py-1 bg-slate-700/30 text-slate-300 text-xs font-mono rounded-full border border-slate-600/30">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <!-- Right Side: Interactive representation (Code or Diagram) -->
+            <div class="flex-1 lg:max-w-xl flex flex-col justify-center">
+              {project.codeSample && project.codeLang && project.codeFile && (
+                <CodeShowcase 
+                  code={project.codeSample} 
+                  lang={project.codeLang} 
+                  filename={project.codeFile} 
+                />
+              )}
+
+              {!project.isAcademic && project.id === "secure-fota-sandbox" && (
+                <ArchitectureDiagram title="TLS 1.3 mTLS FOTA Handshake Loop">
+                  <div class="flex flex-col items-center gap-2 p-4 text-xs font-mono w-full max-w-md">
+                    <!-- Host vs Guest FOTA Handshake -->
+                    <div class="w-full space-y-1.5 text-[9px] text-slate-400 border border-sky-500/20 bg-sky-500/5 p-3 rounded-lg">
+                      <div class="flex justify-between font-bold text-sky-400 text-[10px] mb-1">
+                        <span>Local AWS FOTA Emulator (Python)</span>
+                        <span>Cortex-M4 Guest (FreeRTOS)</span>
+                      </div>
+                      
+                      <div class="flex justify-between border-b border-slate-800/40 pb-1">
+                        <span class="text-sky-300">Publishes AWS Job Doc</span>
+                        <span>&rarr; mTLS Broker &rarr;</span>
+                        <span>Subscribed to /jobs/notify-next</span>
+                      </div>
+                      
+                      <div class="flex justify-between border-b border-slate-800/40 pb-1">
+                        <span>Decodes Bitmap Job Document</span>
+                        <span>&larr; CBOR Bitmap &larr;</span>
+                        <span class="text-emerald-300">Requests binary chunk bits</span>
+                      </div>
+                      
+                      <div class="flex justify-between border-b border-slate-800/40 pb-1">
+                        <span class="text-sky-300">Streams 256B CBOR block</span>
+                        <span>&rarr; mTLS/TCP 8883 &rarr;</span>
+                        <span>Computes SHA-256 natively via PAL</span>
+                      </div>
+                      
+                      <div class="flex justify-between">
+                        <span>Pushes Success status</span>
+                        <span>&larr; verification &larr;</span>
+                        <span class="text-emerald-300">Reboots (AIRCR) & Self-Tests</span>
+                      </div>
+                    </div>
+                  </div>
+                </ArchitectureDiagram>
+              )}
+
+              {project.isAcademic && project.id === "bachelors-portfolio" && (
+                <SystemViewScope 
+                  src="/images/nameonchip.png"
+                  title="Politecnico di Torino Silicon Prototyping"
+                  captures={["TARGET: MSP430", "PERIPHERAL: GPIO/TIMERS", "BUILT: POLITO LABS", "STATUS: VERIFIED"]}
+                  header="MSP430 SILICON PROTOTYPE"
+                  timebase=""
+                  freq="16 MHz"
+                />
+              )}
+
+              {!project.isAcademic && project.id === "voip-app" && (
+                <SystemViewScope 
+                  src="/images/g722-idle73.png"
+                  title="FreeRTOS G.722 Context Trace"
+                  captures={["I2S_AUDIO_DMA", "G722_ASM_DECODE", "LwIP_IP_STACK", "TC6_SPI_DMA"]}
+                />
+              )}
+
+              {!project.isAcademic && project.id === "secure-boot" && (
+                <ArchitectureDiagram title="Layer 2 Cryptographic Bootloader Handshake">
+                  <div class="flex flex-col items-center gap-2 p-4 text-xs font-mono w-full max-w-md">
+                    <!-- Host vs Bootloader Handshake Flow -->
+                    <div class="w-full space-y-1.5 text-[9px] text-slate-400 border border-emerald-500/20 bg-emerald-500/5 p-3 rounded-lg">
+                      <div class="flex justify-between font-bold text-emerald-400 text-[10px] mb-1">
+                        <span>L2 Provisioning Server (Go)</span>
+                        <span>Bootloader (32KB Bare-Metal)</span>
+                      </div>
+                      
+                      <div class="flex justify-between border-b border-slate-800/40 pb-1">
+                        <span class="text-sky-300">Sends Raw MAC Frame</span>
+                        <span>&rarr; Broadcast &rarr;</span>
+                        <span>Listens on raw MAC port</span>
+                      </div>
+                      
+                      <div class="flex justify-between border-b border-slate-800/40 pb-1">
+                        <span>Verify Session Challenge</span>
+                        <span>&larr; Handshake (ECDH) &larr;</span>
+                        <span class="text-emerald-300">Generates ECDH Session Key</span>
+                      </div>
+
+                      <div class="flex justify-between border-b border-slate-800/40 pb-1">
+                        <span class="text-sky-300">Encrypts Chunk (AES)</span>
+                        <span>&rarr; Payload &rarr;</span>
+                        <span>Decrypts in-place (no IP heap)</span>
+                      </div>
+
+                      <div class="flex justify-between">
+                        <span>Acks Chunk</span>
+                        <span>&larr; verification &larr;</span>
+                        <span class="text-emerald-300">uECC Image Check & Flash</span>
+                      </div>
+                    </div>
+                  </div>
+                </ArchitectureDiagram>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
