@@ -1,0 +1,1371 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 6.4.7.2 (Linux)"/>
+	<meta name="created" content="2022-02-02T18:00:22.155355436"/>
+	<meta name="changed" content="2022-02-02T18:00:55.698000346"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { margin-bottom: 0.1in; line-height: 115%; background: transparent }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><p style="margin-bottom: 0in; line-height: 100%">
+<font color="#3f7f5f"><font face="Consolas, serif">;-------------------------------------------------------------------------------</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif">;
+MSP430 Assembler Code Template for use with TI Code Composer Studio</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif">;</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif">;</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif">;-------------------------------------------------------------------------------</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           <font face="Consolas, serif">.cdecls C,LIST,</font></font><font color="#2a00ff"><font face="Consolas, serif">&quot;msp430.h&quot;</font></font><font color="#000000"><font face="Consolas, serif">
+      </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+Include device header file</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font>
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif">;-------------------------------------------------------------------------------</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           <font face="Consolas, serif">.def    RESET                
+  </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+Export program entry-point to</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+                                           </font><font color="#3f7f5f"><font face="Consolas, serif">;
+make it known to linker.</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif">;-------------------------------------------------------------------------------</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><b>.text</b></font></font><font color="#000000"><font face="Consolas, serif">
+                          </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+Assemble into program memory.</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           <font face="Consolas, serif">.retain                      
+  </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+Override ELF conditional linking</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+                                           </font><font color="#3f7f5f"><font face="Consolas, serif">;
+and retain current section.</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           <font face="Consolas, serif">.retainrefs                  
+  </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+And retain any sections that have</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+                                           </font><font color="#3f7f5f"><font face="Consolas, serif">;
+references to current section.</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif">;-------------------------------------------------------------------------------</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">RESET
+      </font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">
+  #__STACK_END,SP         </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+Initialize stackpointer</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">StopWDT
+    </font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">
+  #WDTPW|WDTHOLD,&amp;WDTCTL  </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+Stop watchdog timer</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>.text</b></font></font><font color="#000000"><font face="Consolas, serif">
+                          </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+program start</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><b>.global</b></font></font><font color="#000000"><font face="Consolas, serif">
+_main		    </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+define entry point</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>_main:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>NOP</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">
+  #WDTPW+WDTHOLD,&amp;WDTCTL  </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+stop watchdog timer</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">				</font></font><font color="#3f7f5f"><font face="Consolas, serif">;Set
+the I/O port that controls the RED LED to an output.</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">				</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+ To do this set bit 0 in the P1DIR register.  Leave all</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">				</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+ all other I/O lines as inputs</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			Call
+ #SetIOPorts</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			Call
+ #InitilizeDisplaySPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			Call
+ #InitilizeDisplay</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bic.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#01100001b,
+P2OUT</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#01100001b,
+P2DIR</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+ echo peripheral swt</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bis.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00001100b,
+P1SEL</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bis.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00010000b,
+P2SEL</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">
+ #TimerSetUp</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>looptemp:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#3f7f5f"><font face="Consolas, serif">;mov.b	#0xa5,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#3f7f5f"><font face="Consolas, serif">;call	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#3f7f5f"><font face="Consolas, serif">;jmp		looptemp</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#3f7f5f"><font face="Consolas, serif">;bic
+  #0X4100,&amp;UCSCTL6</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#HalfSecondDelay</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#3f7f5f"><font face="Consolas, serif">;bic.b
+  #0X70,&amp;UCSCTL1</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#3f7f5f"><font face="Consolas, serif">;MOV	
+ #0X11FF,&amp;UCSCTL2</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#3f7f5f"><font face="Consolas, serif">;call	#HalfSecondDelay</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>Mainloop:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bis.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#01100001b,
+P2OUT 		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;wait
+&lt; 10 us</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font><font color="#000000"><font face="Consolas, serif">
+		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;wait
+10us</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font><font color="#000000"><font face="Consolas, serif">
+		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;wait
+10us</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font><font color="#000000"><font face="Consolas, serif">
+		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;wait
+10us</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font><font color="#000000"><font face="Consolas, serif">
+		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;wait
+10us</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font><font color="#000000"><font face="Consolas, serif">
+		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;wait
+10us</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font><font color="#000000"><font face="Consolas, serif">
+		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;wait
+10us</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font><font color="#000000"><font face="Consolas, serif">
+		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;wait
+10us</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font><font color="#000000"><font face="Consolas, serif">
+		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;wait
+10us</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font><font color="#000000"><font face="Consolas, serif">
+		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;wait
+10us</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font><font color="#000000"><font face="Consolas, serif">
+		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;wait
+10us</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font><font color="#000000"><font face="Consolas, serif">
+		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;wait
+10us</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bic.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#01100001b,
+P2OUT 	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;signal
+started</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>WaitDistance:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bit.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#CCI,&amp;TA2CCTL1</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jz</b></font></font><font color="#000000"><font face="Consolas, serif">		WaitDistance</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#0xFFFF,&amp;TA2CCR0</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#0xFFFF,&amp;TA0CCR0</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>WaitLM:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bit.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#CCI,&amp;TA2CCTL1</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jnz</b></font></font><font color="#000000"><font face="Consolas, serif">		WaitLM</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>WaitLR:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bit.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#CCI,&amp;TA0CCTL1</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jnz</b></font></font><font color="#000000"><font face="Consolas, serif">		WaitLR</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>WaitTillDistanceIsLowLeft:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bit.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#CCI,&amp;TA0CCTL2</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jnz</b></font></font><font color="#000000"><font face="Consolas, serif">		WaitTillDistanceIsLowLeft</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	TA2CCR1,
+R13</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	TA0CCR2,
+R7</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	TA0CCR1,
+R8</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#0x0000,&amp;TA2CCR0</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#0x0000,&amp;TA0CCR0</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov</b></font></font><font color="#000000"><font face="Consolas, serif">		#0x1f,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov</b></font></font><font color="#000000"><font face="Consolas, serif">		#0x01,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov</b></font></font><font color="#000000"><font face="Consolas, serif">		#0x00,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>rla.w</b></font></font><font color="#000000"><font face="Consolas, serif">
+	R13</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>rla.w</b></font></font><font color="#000000"><font face="Consolas, serif">
+	R13</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bic.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#000000000001111b,
+R13</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov</b></font></font><font color="#000000"><font face="Consolas, serif">		#0x5f,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	LookUpTable(R13),
+R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>add.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#1,
+R13</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	LookUpTable(R13),
+R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov</b></font></font><font color="#000000"><font face="Consolas, serif">		#0x0e,
+R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov</b></font></font><font color="#000000"><font face="Consolas, serif">		#0x02,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>add.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#1,
+R13</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	LookUpTable(R13),
+R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>add.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#1,
+R13</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	LookUpTable(R13),
+R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov</b></font></font><font color="#000000"><font face="Consolas, serif">		#0x0d,
+R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov</b></font></font><font color="#000000"><font face="Consolas, serif">		#0x04,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPIf</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">
+	#HalfSecondDelay</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	
+       </font></font><font color="#7f0055"><font face="Consolas, serif"><b>jmp</b></font></font><font color="#000000"><font face="Consolas, serif">
+    Mainloop</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	
+       </font></font><font color="#7f0055"><font face="Consolas, serif"><b>NOP</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>TimerSetUp:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+SMCLK, /8, Up mode, no interrupts</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#0000001011010100b,
+&amp;TA0CTL </font></font><font color="#3f7f5f"><font face="Consolas, serif">;left
+right</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#0000001011010100b,
+&amp;TA2CTL</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+Capture on faling, CCIxA, Synchronous, Capture, No interrupts</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#1000100100000000b,
+&amp;TA0CCTL2 </font></font><font color="#3f7f5f"><font face="Consolas, serif">;left
+capture</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#1000100100000000b,
+&amp;TA0CCTL1 </font></font><font color="#3f7f5f"><font face="Consolas, serif">;right
+capture</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#1000100100000000b,
+&amp;TA2CCTL1 </font></font><font color="#3f7f5f"><font face="Consolas, serif">;front
+capture</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#0000000000000111b,
+&amp;TA0EX0</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">	#0000000000000111b,
+&amp;TA2EX0</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>ret</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>InitilizeDisplay:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bic.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#01000000b,P1OUT		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;reset
+the display</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#HalfSecondDelay		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;only
+need 20us but I have a half second delay.</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bis.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#01000000b,P1OUT</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			mov.a	#DisplayInitilizationData,R4</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>InitDisplayMore:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bic.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00001000b,P2OUT</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov</b></font></font><font color="#000000"><font face="Consolas, serif">		#0x1f,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	@R4+,R5</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>cmp.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#0xff,R5</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jz</b></font></font><font color="#000000"><font face="Consolas, serif">		InitDisplayDone</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	R5,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>and.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#0x0f,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>rra.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+  R5</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>rra.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+  R5</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>rra.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+  R5</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>rra.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+  R5</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	R5,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>and.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#0x0f,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bis.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00001000b,P2OUT</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jmp</b></font></font><font color="#000000"><font face="Consolas, serif">		InitDisplayMore</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>InitDisplayDone:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bis.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00001000b,P2OUT</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>ret</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>DisplayInitilizationData:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x3A,0x01f,0x09,0x06,0x1E,0x39,0x1B,0x6E,0x56,0x7A,0x38,0x01,0x0F,0x39,0x56,0x70,0x38,0xff</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>Displaynumbers:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			mov.a	#DisplayNumberData,R4</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bic.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00001000b,P2OUT</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>DisplaynumbersMore:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	@R4+,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>cmp.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#0xff,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jz</b></font></font><font color="#000000"><font face="Consolas, serif">		DisplaynumbersDone</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jmp</b></font></font><font color="#000000"><font face="Consolas, serif">		DisplaynumbersMore</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>DisplaynumbersDone:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bis.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00001000b,P2OUT</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>ret</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>DisplayNumberData:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x5f,0x01,0x03,0x02,0x03,0xff</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>DisplayLetters:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			mov.a	#DisplayLettersData,R4</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bic.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00001000b,P2OUT</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>DisplayLettersMore:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	@R4+,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>cmp.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#0xff,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jz</b></font></font><font color="#000000"><font face="Consolas, serif">		DisplayLettersDone</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#SendSPI</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jmp</b></font></font><font color="#000000"><font face="Consolas, serif">		DisplayLettersMore</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>DisplayLettersDone:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bis.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00001000b,P2OUT</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>ret</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>DisplayLettersData:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x5f,0x03,0x05,0x09,0x06,0x0D,0x06,0x0F,0x06,0x0E,0x06,0x05,0x06,0xff</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>HalfSecondDelay:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov</b></font></font><font color="#000000"><font face="Consolas, serif">		#0x1,R14</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>OuterTimercountLoop:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov</b></font></font><font color="#000000"><font face="Consolas, serif">		#0xffff,R15</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>TimercountLoop:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>sub</b></font></font><font color="#000000"><font face="Consolas, serif">		#1,R15</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jnz</b></font></font><font color="#000000"><font face="Consolas, serif">		TimercountLoop</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>sub</b></font></font><font color="#000000"><font face="Consolas, serif">		#1,R14</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jnz</b></font></font><font color="#000000"><font face="Consolas, serif">		OuterTimercountLoop</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>ret</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>SetIOPorts:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;	IO
+ports need to be defined as Inputs and outputs based on the
+development board</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+	PORT 1		bit 	direction 		function</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				0		output			LED
+on Developmet board</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				1		input
+(pullup)	Switch 2 on development board</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				2		input			right
+distance sensor</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				3		input			left
+distance sensor</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				4		output			left
+pwm</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				5		output			right
+pwm</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				6		output
+			Display reset</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				7		input			EzEET_uart</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00000011b,P1OUT		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;set
+up all default output values and pullups</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00000010b,P1REN		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;enable
+pull up/dn resistors</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#01110001b,P1DIR		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;set
+all pin directions per definition</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+	PORT 2		bit 	direction 		function</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				0		output			Distance
+Right Trigger</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				1		input
+(pullup)	Switch 1 on development board</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				2		output			Direction
+of right motor</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				3		output			Chip
+Select for display</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				4		input			front
+distance sensor</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				5		output			front
+distance sensor trigger</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				6		output			left
+distance sensor trigger</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				7		output			direction
+of left motor</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00001010b,P2OUT		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;set
+up all default output values and pullups</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00000010b,P2REN		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;enable
+pull up/dn resistors</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#11101101b,P2DIR		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;set
+all pin directions per definition</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+	PORT 3		bit 	direction 		function</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				0		output			MOSI
+(also LED 1)</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				1		input
+			MISO (also LED 2)</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				2		output			SCLK
+(also LED 3)</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				3		output			UART
+Tx (also LED 4)</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				4		input			UART
+Rx (also LED 5)</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				5		output			LED
+6</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				6		output			LED
+7</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;				7		output			LED
+8</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00000110b,P3OUT		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;set
+up all default output values and pullups</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00000000b,P3REN		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;enable
+pull up/dn resistors</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#11101101b,P3DIR		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;set
+all pin directions per definition</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00000111b,P3SEL</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+	PORT 4		bit 	direction 		function</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+	PORT 5		bit 	direction 		function</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+	PORT 6		bit 	direction 		function</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+	PORT 7		bit 	direction 		function</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>ret</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>InitilizeDisplaySPI:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bic.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00001000b,
+&amp;P2OUT </font></font><font color="#3f7f5f"><font face="Consolas, serif">;Chip
+Select low initializer</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#01000000b,
+&amp;P1OUT </font></font><font color="#3f7f5f"><font face="Consolas, serif">;Reset
+high initializer</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00001000b,
+&amp;P2DIR </font></font><font color="#3f7f5f"><font face="Consolas, serif">;Chip
+Select Output mode</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#01000000b,
+&amp;P1DIR </font></font><font color="#3f7f5f"><font face="Consolas, serif">;Reset
+Output mode</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00000111b,
+&amp;P3SEL </font></font><font color="#3f7f5f"><font face="Consolas, serif">;SCLK,
+MOSI, MISO</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00000001b,
+UCB0CTL1 	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;Allow
+modifications</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#01001001b,
+&amp;UCB0CTL0	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;Communication
+parameters</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#11000001b,
+&amp;UCB0CTL1	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;More
+parameters</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#0x0B,
+&amp;UCB0BR0			</font></font><font color="#3f7f5f"><font face="Consolas, serif">;Setting
+baud rate to achieve 100 kHz clock</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#0x00,
+&amp;UCB0BR1</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bic.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#00000001b,
+UCB0CTL1	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;Enable
+serial</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bic.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#01000000b,
+&amp;P1DIR		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;Pull
+reset low</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	#HalfSecondDelay		</font></font><font color="#3f7f5f"><font face="Consolas, serif">;Wait</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+bic.b	#01000000b, &amp;P1DIR		;Pull reset high</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>ret</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>SendSPI:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bis.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#01000000b,
+&amp;P1DIR	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;set
+ Chip Select</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">	R10,
+&amp;UCB0TXBUF</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>CheckSTATUS:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bit.b</b></font></font><font color="#000000"><font face="Consolas, serif">	#1,
+&amp;UCB0STAT</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jnz</b></font></font><font color="#000000"><font face="Consolas, serif">		CheckSTATUS</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>ret</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>LookUpTable:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x00, 0x03	</font></font><font color="#3f7f5f"><font face="Consolas, serif">;transforming
+values from the timer to real value</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x00, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x01, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x02, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x01, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x02, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x03, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x04, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x05, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x06, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x07, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x08, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x03, 0x03, 0x09, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>.byte</b></font></font><font color="#000000"><font face="Consolas, serif">
+0x04, 0x03, 0x00, 0x03</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif">;-------------------------------------------------------------------------------</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif">;
+Stack Pointer definition</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif">;-------------------------------------------------------------------------------</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><b>.global</b></font></font><font color="#000000"><font face="Consolas, serif">
+__STACK_END</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><b>.sect</b></font></font><font color="#000000"><font face="Consolas, serif">
+  .stack</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font>
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif">;-------------------------------------------------------------------------------</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif">;
+Interrupt Vectors</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif">;-------------------------------------------------------------------------------</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><b>.sect</b></font></font><font color="#000000"><font face="Consolas, serif">
+  </font></font><font color="#2a00ff"><font face="Consolas, serif">&quot;.reset&quot;</font></font><font color="#000000"><font face="Consolas, serif">
+               </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+MSP430 RESET Vector</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><b>.short</b></font></font><font color="#000000"><font face="Consolas, serif">
+ RESET</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+
+<script src="assets/js/nocopy.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 6.4.7.2 (Linux)"/>
+	<meta name="created" content="2022-02-14T18:18:11.813668561"/>
+	<meta name="changed" content="2022-02-14T18:19:08.222584317"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { margin-bottom: 0.1in; line-height: 115%; background: transparent }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><p style="margin-bottom: 0in; line-height: 100%">
+<font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+MSP430 Assembler Code Template for use with TI Code Composer Studio</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           <font face="Consolas, serif"><font size="2" style="font-size: 10pt">.cdecls
+C,LIST,</font></font></font><font color="#2a00ff"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">&quot;msp430.h&quot;</font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+      </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Include device header file</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font>
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           <font face="Consolas, serif"><font size="2" style="font-size: 10pt">.def
+   RESET                   </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Export program entry-point to</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+                                           </font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+make it known to linker.</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">LookupNibble
+</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.macro</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+Position</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	R4,
+R13</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>and.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x0f,
+R13</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	DisplayAsciiHexTable(R13),
+Position (R15)</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.endm</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.text</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+                          </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Assemble into program memory.</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           <font face="Consolas, serif"><font size="2" style="font-size: 10pt">.retain
+                        </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Override ELF conditional linking</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+                                           </font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+and retain current section.</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           <font face="Consolas, serif"><font size="2" style="font-size: 10pt">.retainrefs
+                    </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+And retain any sections that have</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+                                           </font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+references to current section.</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">RESET
+      </font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+  #__STACK_END,SP         </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Initialize stackpointer</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">StopWDT
+    </font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+  #WDTPW|WDTHOLD,&amp;WDTCTL  </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Stop watchdog timer</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.text</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+                          </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+program start</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.global</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+_main		    </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+define entry point</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>_main:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>NOP</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+  #WDTPW+WDTHOLD,&amp;WDTCTL  </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+stop watchdog timer</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">				</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;Set
+the I/O port that controls the RED LED to an output.</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">				</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+ To do this set bit 0 in the P1DIR register.  Leave all</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">				</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+ all other I/O lines as inputs</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>call</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+	#IOportsSetup</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>call</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#SetupADC</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>call</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+ 	#SetupTimer</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>Mainloop:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bis.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000000000000001b,	ADC12CTL0</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>call</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+ 	#HalfSecondDelay</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bic.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000000000000001b,	ADC12CTL0</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	ADC12MEM0,	R5
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;move
+values into register</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	ADC12MEM1,	R6</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	ADC12MEM2,	R9</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bit.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x8000,	R5
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;check
+if number is negative</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>jz</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		AfterCheck1</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>xor.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0xffff,	R5
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;use
+two's complement to get positive value</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>add.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#1,			R5
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;use
+two's complement to get positive value</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>AfterCheck1:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bit.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x8000,	R6
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;check
+if number is negative</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>jz</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		AfterCheck2</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>xor.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0xffff,	R6
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;use
+two's complement to get positive value</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>add.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#1,			R6
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;use
+two's complement to get positive value</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>AfterCheck2:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bit.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x8000,	R9
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;check
+if number is negative</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>jz</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		AfterCheck3</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>xor.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0xffff,	R9
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;use
+two's complement to get positive
+value;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+MSP430 Assembler Code Template for use with TI Code Composer Studio</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           <font face="Consolas, serif"><font size="2" style="font-size: 10pt">.cdecls
+C,LIST,</font></font></font><font color="#2a00ff"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">&quot;msp430.h&quot;</font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+      </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Include device header file</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           <font face="Consolas, serif"><font size="2" style="font-size: 10pt">.def
+   RESET                   </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Export program entry-point to</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+                                           </font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+make it known to linker.</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">LookupNibble
+</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.macro</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+Position</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	R4,
+R13</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>and.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x0f,
+R13</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	DisplayAsciiHexTable(R13),
+Position (R15)</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.endm</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.text</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+                          </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Assemble into program memory.</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           <font face="Consolas, serif"><font size="2" style="font-size: 10pt">.retain
+                        </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Override ELF conditional linking</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+                                           </font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+and retain current section.</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           <font face="Consolas, serif"><font size="2" style="font-size: 10pt">.retainrefs
+                    </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+And retain any sections that have</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+                                           </font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+references to current section.</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">RESET
+      </font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+  #__STACK_END,SP         </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Initialize stackpointer</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">StopWDT
+    </font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+  #WDTPW|WDTHOLD,&amp;WDTCTL  </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Stop watchdog timer</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.text</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+                          </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+program start</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.global</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+_main		    </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+define entry point</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>_main:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>NOP</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+  #WDTPW+WDTHOLD,&amp;WDTCTL  </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+stop watchdog timer</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">				</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;Set
+the I/O port that controls the RED LED to an output.</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">				</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+ To do this set bit 0 in the P1DIR register.  Leave all</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">				</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+ all other I/O lines as inputs</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>call</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+	#IOportsSetup</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>call</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#SetupADC</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>call</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+ 	#SetupTimer</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>Mainloop:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bis.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000000000000001b,	ADC12CTL0</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>call</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+ 	#HalfSecondDelay</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bic.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000000000000001b,	ADC12CTL0</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	ADC12MEM0,	R5
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;move
+values into register</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	ADC12MEM1,	R6</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	ADC12MEM2,	R9</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bit.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x8000,	R5
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;check
+if number is negative</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>jz</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		AfterCheck1</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>xor.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0xffff,	R5
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;use
+two's complement to get positive value</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>add.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#1,			R5
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;use
+two's complement to get positive value</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>AfterCheck1:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bit.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x8000,	R6
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;check
+if number is negative</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>jz</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		AfterCheck2</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>xor.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0xffff,	R6
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;use
+two's complement to get positive value</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>add.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#1,			R6
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;use
+two's complement to get positive value</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>AfterCheck2:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bit.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x8000,	R9
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;check
+if number is negative</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>jz</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		AfterCheck3</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>xor.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0xffff,	R9
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;use
+two's complement to get positive value</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>add.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#1,			R9
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;use
+two's complement to get positive value</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>AfterCheck3:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	R5,&amp;TA0CCR1</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	R6,&amp;TA0CCR2</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	R9,&amp;TA0CCR3</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	
+       </font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>jmp</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+    Mainloop</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	
+       </font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>NOP</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>SetupADC:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bic.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000000000000010b,	ADC12CTL0</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000111110010000b,	ADC12CTL0</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000001011100110b,	ADC12CTL1</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000000100101000b,	ADC12CTL2</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00000000b,	ADC12MCTL0</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00000001b,	ADC12MCTL1</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00000010b,	ADC12MCTL2</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#10001010b,	ADC12MCTL3</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bis.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000000000000010b,	ADC12CTL0</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>ret</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>IOportsSetup:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00111100b,P1OUT</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00000000b,P1REN</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00111100b,P1DIR</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00011100b,P1SEL</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>ret</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>SetupTimer:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000001000010100b,
+&amp;TA0CTL</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000100011100000b,
+&amp;TA0CCTL1</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000100011100000b,
+&amp;TA0CCTL2</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000100011100000b,
+&amp;TA0CCTL3</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x0fff,&amp;TA0CCR0</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x000f,&amp;TA0CCR1</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x000f,&amp;TA0CCR2</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x000f,&amp;TA0CCR3</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>ret</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>HalfSecondDelay:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		#0x1,R12</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>OuterTimercountLoop:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		#0xffff,R15</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>TimercountLoop:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>nop</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>sub</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		#1,R15</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>jnz</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		TimercountLoop</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>sub</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		#1,R12</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>jnz</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		OuterTimercountLoop</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>ret</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Stack Pointer definition</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.global</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+__STACK_END</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.sect</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+  .stack</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Interrupt Vectors</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.sect</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+  </font></font></font><font color="#2a00ff"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">&quot;.reset&quot;</font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+               </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+MSP430 RESET Vector</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.short</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+ RESET</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>add.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#1,			R9
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+2;s comp values</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>AfterCheck3:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	R5,&amp;TA0CCR1</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	R6,&amp;TA0CCR2</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	R9,&amp;TA0CCR3</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	
+       </font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>jmp</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+    Mainloop</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	
+       </font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>NOP</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>SetupADC:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bic.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000000000000010b,	ADC12CTL0
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+ADC12_A Control Register 0 CONFIGURATIONS</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000111110010000b,	ADC12CTL0	</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+ADC12_A Control Register 0 CONFIGURATIONS</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000001011100110b,	ADC12CTL1	</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+ADC12_A Control Register 1 CONFIGURATIONS</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000000100101000b,	ADC12CTL2	</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+ADC12_A Control Register 2 CONFIGURATIONS</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00000000b,	ADC12MCTL0		</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Conversion Memory Control Register 0</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00000001b,	ADC12MCTL1		</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Conversion Memory Control Register 1</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00000010b,	ADC12MCTL2		</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+ Conversion Memory Control Register 2</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#10001010b,	ADC12MCTL3		</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;	
+Conversion Memory Control Register 3</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>bis.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000000000000010b,	ADC12CTL0
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;ADC12_A
+Control Register 2 CONFIGURATIONS</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>ret</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>IOportsSetup:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00111100b,P1OUT	</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;setup
+p1</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00000000b,P1REN	</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;setup
+pull up pull down</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>nop</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>nop</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00111100b,P1DIR	</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;set
+up data dir</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.b</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#00011100b,P1SEL	</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;set
+up chip select</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>ret</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>SetupTimer:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000001000010100b,
+&amp;TA0CTL	</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;TA
+ctrl0 configurations</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000100011100000b,
+&amp;TA0CCTL1 </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;;TA
+ctrl 1 configurations</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>nop</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000100011100000b,
+&amp;TA0CCTL2	</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;TA
+ctr2 configurations</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>nop</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0000100011100000b,
+&amp;TA0CCTL3 </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;TA
+ctrl3 configurations</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>nop</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x0fff,&amp;TA0CCR0	</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Timer_A0 CCR0 capture input</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x000f,&amp;TA0CCR1	</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Timer_A0 CCR1 capture input</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x000f,&amp;TA0CCR2	</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;Timer_A0
+CCR2 capture input</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov.w</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">	#0x000f,&amp;TA0CCR3	</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;Timer_A0
+CCR3 capture input</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>ret</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>HalfSecondDelay:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		#0x1,R12
+</font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+HALF SECONED ROTUNE</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>OuterTimercountLoop:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>mov</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		#0xffff,R15</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>TimercountLoop:</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>nop</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>sub</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		#1,R15</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>jnz</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		TimercountLoop</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>sub</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		#1,R12</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>jnz</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">		OuterTimercountLoop</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">			</font></font></font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>ret</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Stack Pointer definition</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.global</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+__STACK_END</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.sect</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+  .stack</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font>
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+Interrupt Vectors</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;-------------------------------------------------------------------------------</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.sect</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+  </font></font></font><font color="#2a00ff"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">&quot;.reset&quot;</font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+               </font></font></font><font color="#3f7f5f"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">;
+MSP430 RESET Vector</font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><font size="2" style="font-size: 10pt"><b>.short</b></font></font></font><font color="#000000"><font face="Consolas, serif"><font size="2" style="font-size: 10pt">
+ RESET</font></font></font></p>
+ <script src="assets/js/nocopy.js"></script>
+ <script type="text/javascript">
+  $(document).ready(function () {
+      //to disable the entire page
+      $("body").on("contextmenu",function(e){
+          return false;
+      });
+      
+      //to disable a section
+      $("#id").on("contextmenu",function(e){
+          return false;
+      });
+  });
+  </script>
+</body>
+</html>

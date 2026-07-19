@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 6.4.7.2 (Linux)"/>
+	<meta name="created" content="2022-02-02T00:29:08.036013197"/>
+	<meta name="changed" content="2022-02-02T00:29:59.013559619"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { margin-bottom: 0.1in; line-height: 115%; background: transparent }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><p style="margin-bottom: 0in; line-height: 100%" 
+	oncopy="return false" onpaste="return false" oncut="return false" > 
+<font color="#7f0055"><font face="Consolas, serif"><b>.text</b></font></font><font color="#000000"><font face="Consolas, serif">
+                          </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+program start</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+          </font><font color="#7f0055"><font face="Consolas, serif"><b>.global</b></font></font><font color="#000000"><font face="Consolas, serif">
+_main    </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+define entry point</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>_main:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>NOP</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bis.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+#11111111b, &amp;P3DIR</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">
+#11111111b, &amp;P3OUT</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bis.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+  #0000001b,&amp;P1DIR</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">
+#0, R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+#8, R11</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+#0, R12</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>Mainloop:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>add.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+#1b,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+R10,R12</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>and.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+  R11,R12</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>cmp.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+  R12,R11</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>jeq</b></font></font><font color="#000000"><font face="Consolas, serif">
+Mainloop</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>xor.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+  #0xff,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+R10,&amp;P3OUT</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>xor.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+  #0xff,R10</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><span style="background: #c6dbae">		</span></font></font><font color="#7f0055"><font face="Consolas, serif"><u><b><span style="background: #c6dbae">jmp</span></b></u></font></font><font color="#000000"><font face="Consolas, serif"><u><span style="background: #c6dbae">
+Mainloop</span></u></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">		</font></font><font color="#7f0055"><font face="Consolas, serif"><b>NOP</b></font></font></p>
+</body>
+</html>

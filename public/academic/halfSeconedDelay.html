@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 6.4.7.2 (Linux)"/>
+	<meta name="created" content="2022-02-02T00:29:08.036013197"/>
+	<meta name="changed" content="2022-02-02T00:32:40.074947554"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { margin-bottom: 0.1in; line-height: 115%; background: transparent }
+		a:link { color: #000080; so-language: zxx; text-decoration: underline }
+		a:visited { color: #800000; so-language: zxx; text-decoration: underline }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><p style="margin-bottom: 0in; line-height: 100%"
+	oncopy="return false" onpaste="return false" oncut="return false">
+<font color="#7f0055"><font face="Consolas, serif"><b>.text</b></font></font><font color="#000000"><font face="Consolas, serif">
+                          </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+program start</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000">
+           </font><font color="#7f0055"><font face="Consolas, serif"><b>.global</b></font></font><font color="#000000"><font face="Consolas, serif">
+_main		    </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+define entry point</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>_main:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>NOP</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>mov.w</b></font></font><font color="#000000"><font face="Consolas, serif">
+  #WDTPW+WDTHOLD,&amp;WDTCTL  </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+stop watchdog timer</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">				</font></font><font color="#3f7f5f"><font face="Consolas, serif">;Set
+the I/O port that controls the RED LED to an output.</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">				</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+ To do this set bit 0 in the P1DIR register.  Leave all</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">				</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+ all other I/O lines as inputs</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bis.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+  #0000001b,&amp;P1DIR</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			mov.a	#1000000,
+R5</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>Mainloop:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>NOP</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bic.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+  #00000001b,&amp;P1OUT        </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+clear P1.0 which will turn off</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">								</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+ the RED LED.</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>call</b></font></font><font color="#000000"><font face="Consolas, serif">	
+ #HalfSecondDelay</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>bis.b</b></font></font><font color="#000000"><font face="Consolas, serif">
+  #00000001b,&amp;P1OUT       </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+set P1.0 which will turn on the</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">							
+     </font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+  RED LED.</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">	
+            </font></font><font color="#7f0055"><font face="Consolas, serif"><b>jmp</b></font></font><font color="#000000"><font face="Consolas, serif">
+    Mainloop</font></font><font color="#3f7f5f"><font face="Consolas, serif">;
+jump to the Mainloop label</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>nop</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#7f0055"><font face="Consolas, serif"><b>HalfSecondDelay:</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			sub.a
+#1, R5</font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif"><span style="background: #c6dbae">			</span></font></font><font color="#7f0055"><font face="Consolas, serif"><b><span style="background: #c6dbae">jnz</span></b></font></font><font color="#000000"><font face="Consolas, serif"><span style="background: #c6dbae">
+HalfSecondDelay</span></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Consolas, serif">			</font></font><font color="#7f0055"><font face="Consolas, serif"><b>ret</b></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+</body>
+</html>
