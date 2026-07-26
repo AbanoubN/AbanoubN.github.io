@@ -23,6 +23,5 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# CV and resume PDFs
+# CV source folder
 CV/
-public/resume.pdf
